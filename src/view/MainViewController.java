@@ -13,11 +13,6 @@ import java.util.stream.Collectors;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import org.jgraph.JGraph;
-import org.jgrapht.ListenableGraph;
-import org.jgrapht.ext.JGraphModelAdapter;
-import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.ListenableDirectedGraph;
 
 import application.Author;
 import application.Main;
