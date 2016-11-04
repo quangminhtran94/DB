@@ -51,7 +51,8 @@ public class QueryService {
         return null;
     }
 
-    public static int [][] getCollaborationMatrix(AuthorList authorList) {
+    public static int [][] getCollaborationMatrix(ArrayList<String> list) {
+        AuthorList authorList = new AuthorList(list);
         DBConnection dc = connectDatabase();
         int [][] result = new int[AuthorList.MAX][AuthorList.MAX];
         if (dc.isConnected()) {
