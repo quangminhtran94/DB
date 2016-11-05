@@ -32,6 +32,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import services.QueryService.QueryService;
 
 public class MainViewController {
 	private List<Author> authors = new ArrayList<Author>();
@@ -134,7 +135,6 @@ public class MainViewController {
 				String dbname = dbnameTxt.getText();
 				String username = usernameTxt.getText();
 				String password = passwordTxt.getText();
-
 				Main.setUpConnection(server, port, username, password, dbname);
 				getAuthors();
 				authorView.setItems(masterData);
@@ -146,8 +146,13 @@ public class MainViewController {
 		generateBtn.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event) {
-				//TODO
-
+				//TODO: click to generate graph
+				ArrayList<String> names = new ArrayList<String>();
+				for(int i = 0; i < choosenAuthors.size(); i++){
+					names.add(choosenAuthors.get(i).getName());
+				}
+				int[][] result = QueryService.getCollaborationMatrix(names);
+				System.out.println("TESTING");
 			}
 		});
 	}
@@ -155,7 +160,7 @@ public class MainViewController {
 
 
 	private void getAuthors(){
-		Connection connection = Main.getDbConnection();
+		Connection connection = Main.getDbConnection().getConnection();
 		Statement stmt = null;
 		try {
 			connection.setAutoCommit(false);

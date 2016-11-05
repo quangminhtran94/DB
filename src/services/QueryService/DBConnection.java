@@ -1,13 +1,23 @@
+package services.QueryService;
+
 import java.sql.*;
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * Created by QuangNgo on 3/11/16.
  */
 public class DBConnection {
-
     private Connection c;
     boolean connected;
+
+    public Connection getConnection(){
+    	if(connected){
+    		return c;
+    	}else{
+    		return null;
+    	}
+    }
 
     public DBConnection() {
         c = null;

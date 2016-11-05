@@ -7,7 +7,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Objects;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +15,7 @@ import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import services.QueryService.DBConnection;
 import view.MainViewController;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -26,7 +27,7 @@ import javafx.scene.layout.GridPane;
 public class Main extends Application {
 	private Stage primaryStage;
 	private BorderPane rootLayout;
-	private static Connection connection;
+	private static DBConnection dbConnection;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -37,30 +38,17 @@ public class Main extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
-		try {
-			connection.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		dbConnection.close();
 	}
 
-	public static Connection getDbConnection(){
-		return connection;
+	public static DBConnection getDbConnection(){
+		return dbConnection;
 	}
 
 	public static void setUpConnection(String server, String port, String username, String password, String dbname){
-		try {
-	         Class.forName("org.postgresql.Driver");
-	         String url = "jdbc:postgresql://" + server + ":" + port + "/" + dbname;
-	         connection = DriverManager
-	            .getConnection(url,
-	            username, password);
-	    } catch (Exception e) {
-	    	e.printStackTrace();
-	        System.err.println(e.getClass().getName()+": "+e.getMessage());
-	        System.exit(0);
-	    }
+		if(Objects.isNull(dbConnection)){
+			dbConnection = new DBConnection(server, Integer.valueOf(port), dbname,username, password);
+		}
 	}
 
 

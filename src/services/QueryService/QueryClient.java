@@ -1,3 +1,5 @@
+package services.QueryService;
+
 import java.sql.ResultSet;
 import java.util.HashMap;
 

@@ -1,3 +1,5 @@
+package services.QueryService;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 

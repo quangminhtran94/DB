@@ -1,5 +1,9 @@
+package services.QueryService;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
+import application.Main;
 
 import java.io.File;
 import java.io.FileReader;
@@ -53,21 +57,18 @@ public class QueryService {
 
     public static int [][] getCollaborationMatrix(ArrayList<String> list) {
         AuthorList authorList = new AuthorList(list);
-        DBConnection dc = connectDatabase();
+        DBConnection dc = Main.getDbConnection();
         int [][] result = new int[AuthorList.MAX][AuthorList.MAX];
         if (dc.isConnected()) {
             System.out.println("Connected to database");
             HashMap authorMap = getAuthorMap(dc, authorList);
             String idSet = authorMap.keySet().toString().replace("[", "(").replace("]", ")");
             result = getAuthorMatrix(dc, idSet, authorMap, authorList.getReverseMap());
-            dc.close();
         }
         return result;
     }
 
-    public static void main(String[] args) {
-        System.out.println(getCollaborationMatrix(init())[0][2]);
-    }
+
 }
 
 /*
