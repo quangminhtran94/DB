@@ -100,7 +100,9 @@ public class MainViewController {
 			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
 				Author choosenAuthor = authorView.getSelectionModel().getSelectedItem();
-				choosenAuthors.add(choosenAuthor);
+				if(!choosenAuthors.contains(choosenAuthor)){
+					choosenAuthors.add(choosenAuthor);
+				}
 				choosenListView.setItems(FXCollections.observableArrayList(choosenAuthors));
 			}
 		});
