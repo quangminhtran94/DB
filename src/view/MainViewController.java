@@ -16,6 +16,7 @@ import javax.swing.SwingUtilities;
 
 import application.Author;
 import application.Main;
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -25,6 +26,8 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
@@ -35,6 +38,8 @@ import javafx.scene.control.TextField;
 import services.QueryService.QueryService;
 
 public class MainViewController {
+	private Application app;
+
 	private List<Author> authors = new ArrayList<Author>();
 
 	private ObservableList<Author> masterData;
@@ -151,8 +156,7 @@ public class MainViewController {
 				for(int i = 0; i < choosenAuthors.size(); i++){
 					names.add(choosenAuthors.get(i).getName());
 				}
-				int[][] result = QueryService.getCollaborationMatrix(names);
-				System.out.println("TESTING");
+				((Main)app).showGraph(names);
 			}
 		});
 	}
@@ -181,4 +185,7 @@ public class MainViewController {
 		}
 	}
 
+	public void setApplication(Application app) {
+		this.app = app;
+	}
 }

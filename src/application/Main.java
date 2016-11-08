@@ -6,9 +6,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import graph.Graph;
+import graph.RandomLayout;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -16,6 +19,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import services.QueryService.DBConnection;
+import services.QueryService.QueryService;
 import view.MainViewController;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -28,12 +32,16 @@ public class Main extends Application {
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 	private static DBConnection dbConnection;
+	private Parent mainView;
+	private Graph graph;
+    private MainViewController mainViewController;
 
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 		initRootLayout();
 		showMainView();
+        //showGraph(new ArrayList<>(Arrays.asList("Tuan Anh", "Viet Anh")));
 	}
 
 	public static void main(String[] args) {
@@ -68,17 +76,26 @@ public class Main extends Application {
 	}
 
 	public void showMainView() {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("../view/MainView.fxml"));
-		try {
-			Parent mainView = (Parent) loader.load();
-			rootLayout.setCenter(mainView);
-			MainViewController mainViewController = loader.getController();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (mainView == null) {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("../view/MainView.fxml"));
+			try {
+				mainView = loader.load();
+                mainViewController = (MainViewController) loader.getController();
+                mainViewController.setApplication(this);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
+		rootLayout.setCenter(mainView);
 	}
 
-
+	public void showGraph(ArrayList<String> authors) {
+        //int[][] colaborations = new int[2][2];
+		int[][] colaborations = QueryService.getCollaborationMatrix(authors);
+		graph = new Graph(this, authors, colaborations);
+		rootLayout.setCenter(graph.getScrollPane());
+		RandomLayout layout = new RandomLayout(graph);
+		layout.execute();
+	}
 }
