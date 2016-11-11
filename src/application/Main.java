@@ -62,7 +62,7 @@ public class Main extends Application {
 
 	public void initRootLayout() {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("../view/RootLayout.fxml"));
+		loader.setLocation(Main.class.getResource("/view/RootLayout.fxml"));
 		try {
 			rootLayout = (BorderPane) loader.load();
 		} catch (IOException e) {
@@ -78,7 +78,7 @@ public class Main extends Application {
 	public void showMainView() {
 		if (mainView == null) {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("../view/MainView.fxml"));
+			loader.setLocation(Main.class.getResource("/view/MainView.fxml"));
 			try {
 				mainView = loader.load();
                 mainViewController = (MainViewController) loader.getController();
